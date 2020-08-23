@@ -1,0 +1,246 @@
+<template>
+
+    <div id="header" :style="{marginTop: this.alertsHeight}">
+        <!--<img src="public/WebDollar-logo-black.png" id="logo"/>-->
+
+        <div class="topnav" id="menu">
+
+            <router-link to="/#mainSection" id="logoBox" class="active logoMenu" :class="this.mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <img v-on:click="this.collapseMenuBack" src="/public/assets/images/WebDollar-logo-white.png" alt="webDollar logo" id="logo" title="webDollar logo"/>
+            </router-link>
+
+            <!--<router-link to="/#papers" :class="mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                 <div v-on:click="this.collapseMenuBack">Paper</div>
+            </router-link>-->
+
+            <!--<a href="https://webdollarforum.com" :class="this.mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' " target="_blank" >
+                <div v-on:click="this.collapseMenuBack">Forum</div>
+            </a>-->
+
+            <!--<router-link to="/faq" :class="this.mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <div v-on:click="this.collapseMenuBack">FAQ</div>
+            </router-link>-->
+
+            <!--<router-link to="/#team" :class="this.mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <div v-on:click="this.collapseMenuBack">Team</div>
+            </router-link>-->
+
+            <!--<router-link to="/#what-is-WebDollar" :class="mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <div v-on:click="this.collapseMenuBack">About</div>
+            </router-link>-->
+
+            <!--<router-link to="/bounties" :class="mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <div v-on:click="this.collapseMenuBack">Bounties</div>
+            </router-link>a-->
+
+            <a href="https://google.com" :class="mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <div v-on:click="this.collapseMenuBack">Exchange</div>
+            </a>
+
+            <router-link to="/pool" :class="mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <div v-on:click="this.collapseMenuBack">Referral</div>
+            </router-link>
+
+            <a href="http://webdollar.shop/bacm/" :class="this.mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' " target="_blank" >
+                <div v-on:click="this.collapseMenuBack">Stats</div>
+            </a>
+
+            <a href="https://www.webdscan.io/address/WEBD%24gCsh0nNrsZv9VYQfe5Jn%249YMnD4hdyx62n%24" :class="this.mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' " target="_blank" >
+                <div v-on:click="this.collapseMenuBack">Explorer</div>
+            </a>
+
+            <a href="https://t.me/BACMpool" :class="mobileMenuOpened && this.isMobile ? 'openedMenuLink' : '' ">
+                <div v-on:click="this.collapseMenuBack">Telegram</div>
+            </a>
+
+            <a href="javascript:void(0);" style="font-size:15px;" :style="{display: (mobileMenuOpened || isMobile==false) ? 'none':'block'}" class="icon showMenu" @click="this.showMobileMenu" :class="mobileMenuOpened ? 'openedMenuLink' : '' ">&#9776;</a>
+
+        </div>
+        <div id="WebDollarAlertsStickyBar"></div>
+
+        <vue-cookie-accept-decline
+                :ref="'webdmineCookieConsent'"
+                :elementId="'webdmineCookieConsent'"
+                :debug="false"
+                :position="'top-left'"
+                :type="'bar'"
+                :disableDecline="false"
+                :transitionName="'slideFromBottom'"
+                @status="cookieStatus"
+                @clicked-accept="cookieClickedAccept"
+                @clicked-decline="cookieClickedDecline">
+
+            <div slot="message">
+                WARNING! Thanks to the new POS + POW hybrid protocol it is necessary to mine without password. In order to keep your funds safe you should use webdollar.io. If you agree to stay on this website please click "YES, I AGREE" button. If you do not agree, click "NO, I DO NOT AGREE" button and you will be redirected to the webdollar.io, where you will mine directly in BACMpool.
+            </div>
+
+            <div slot="declineContent">
+                NO, I DO NOT AGREE!
+            </div>
+
+            <div slot="acceptContent">
+                YES, I AGREE!
+            </div>
+        </vue-cookie-accept-decline>
+    </div>
+
+</template>
+
+<script>
+    import VueCookieAcceptDecline from 'vue-cookie-accept-decline';
+    import 'vue-cookie-accept-decline/dist/vue-cookie-accept-decline.css'
+
+    export default {
+
+        name: "HeaderLayout",
+
+        components: {
+	    VueCookieAcceptDecline
+        },
+
+        data () {
+            return {
+                screenWidth: 0,
+                alertsHeight: 0,
+                mobileMenuOpened: false,
+                isMobile: false,
+                alerts: [
+                    {
+                        message: 'test text'
+                    },{
+                        message: 'test text 2'
+                    }
+                ]
+            }
+        },
+
+        methods:{
+
+            collapseMenuBack(){
+
+                this.mobileMenuOpened = false;
+
+            },
+
+            showMobileMenu() {
+
+                this.mobileMenuOpened = true;
+
+            },
+
+            verifyIfIsMobile(){
+
+                if (this.screenWidth<768){
+
+                    this.isMobile=true;
+
+                }else{
+
+                    this.isMobile=false;
+
+                }
+
+            },
+
+	    cookieStatus (status) {
+                this.status = status;
+            },
+            cookieClickedAccept () {
+                this.status = 'accept';
+
+                window.location.href = "https://webdmine.io/pool/1/BACMpool/0.01/21dc1f57cb7338963ea159877b4ade97b71dd11ac17292e3852bdc33a26a17e4/https:$$pool.bacm.ro:443";
+            },
+            cookieClickedDecline () {
+                this.status = 'decline';
+
+                window.location.href = "https://webdollar.io/pool/1/1/BACMpool/0.01/21dc1f57cb7338963ea159877b4ade97b71dd11ac17292e3852bdc33a26a17e4/https:$$pool.bacm.ro:443";
+            },
+            cookieRemovedCookie () {
+                this.status = null;
+                this.$refs.webdmineCookieConsent.init();
+            },
+
+            addEvent (object, type, callback) {
+                if (object === null || typeof(object) === 'undefined') return;
+                if (object.addEventListener) {
+                    object.addEventListener(type, callbalse);
+                } else if (object.attachEvent) {
+                    object.attachEvent("on" + type, callback);
+                } else {
+                    object["on"+type] = callback;
+                }
+            }
+
+        },
+
+	computed: {
+            statusText () {
+                return this.status || 'No cookie set'
+            }
+        },
+
+        mounted(){
+
+            if (typeof window === 'undefined') return;
+
+            this.addEvent(window, "resize", (event) => {
+
+                this.screenWidth = window.innerWidth;
+                this.verifyIfIsMobile();
+
+            });
+
+            this.addEvent(window, "scroll", (event) =>{
+
+                if (this.mobileMenuOpened==true){
+                    this.mobileMenuOpened=false;
+                }
+
+            });
+
+            this.screenWidth = window.innerWidth;
+            this.verifyIfIsMobile();
+
+        }
+
+    }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style type="text/css">
+    .cookie__bar__buttons__button--decline {
+	display:none !important;
+    }
+</style>
+<style scoped>
+    .cookie__bar__content div { margin-bottom: 10px; }
+    
+    div.cookie__bar {
+	flex-direction: column;
+    }
+
+    .cookie__bar__content div[class*="decline"] {
+	display:none !important;
+    }
+
+    .cookie__bar__content div {
+        color: black;
+    }
+    /*h1,
+    h2 {
+        font-weight: normal;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        display: inline-block;
+        margin: 0 10px;
+    }
+    a {
+        color: #42b983;
+    }*/
+
+
+</style>
